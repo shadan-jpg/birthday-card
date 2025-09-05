@@ -2,220 +2,148 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Happy Birthday Alexa 🎉</title>
+  <title>Happy Birthday Alexa ❤️</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
       height: 100vh;
-      background: linear-gradient(to right, #ff9a9e, #fad0c4);
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3, #fad0c4);
+      background-size: 300% 300%;
+      animation: gradient 10s ease infinite;
       overflow: hidden;
-      font-family: 'Poppins', sans-serif;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .card {
-      text-align: center;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.15);
       padding: 30px;
       border-radius: 20px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 40px rgba(0,0,0,0.3);
-      position: relative;
-      z-index: 2;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      text-align: center;
+      color: #fff;
+      animation: float 4s ease-in-out infinite;
+      max-width: 400px;
     }
 
-    .profile {
-      width: 180px;
-      height: 180px;
-      object-fit: cover;
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    img.profile {
+      width: 130px;
+      height: 130px;
       border-radius: 50%;
-      border: 6px solid #ff4d6d;
-      box-shadow: 0 0 25px rgba(255,0,0,0.6);
-      margin-bottom: 20px;
+      border: 4px solid #fff;
+      margin-bottom: 15px;
+      object-fit: cover;
     }
 
     h1 {
-      font-size: 2.2em;
-      color: #fff;
+      font-size: 2.2rem;
       margin: 10px 0;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+      color: #ffeb3b;
+      text-shadow: 2px 2px 8px #000;
     }
 
     p {
-      font-size: 1.2em;
-      color: #fff;
-      margin-bottom: 20px;
-      min-height: 50px;
+      font-size: 1rem;
+      margin: 15px 0;
     }
 
     button {
-      background: #ff4d6d;
-      color: white;
+      background: #ff4081;
       border: none;
-      padding: 12px 25px;
+      padding: 12px 20px;
+      margin: 10px;
       border-radius: 25px;
-      font-size: 1em;
+      font-size: 1rem;
+      color: white;
       cursor: pointer;
       transition: 0.3s;
     }
+
     button:hover {
-      background: #e6004c;
+      background: #f50057;
+      transform: scale(1.1);
     }
 
-    /* Falling hearts */
-    .heart {
-      position: fixed;
-      top: -10px;
-      color: red;
-      font-size: 20px;
-      animation: fall 5s linear infinite;
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(110vh);
-        opacity: 0;
-      }
-    }
-
-    /* Fireworks canvas */
-    canvas {
-      position: fixed;
+    .hearts {
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 1;
       pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      color: red;
+      font-size: 20px;
+      animation: rise 6s linear infinite;
+    }
+
+    @keyframes rise {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
     }
   </style>
 </head>
 <body>
-  <canvas id="fireworks"></canvas>
+
   <div class="card">
     <img src="alexa.jpg.jpeg" alt="Alexa" class="profile">
-    <h1>🎂 Happy Birthday Alexa ❤️</h1>
-    <p id="message"></p>
-    <button onclick="alert('I Love You Forever ❤️')">Click Me</button>
+    <h1>🎉 Happy Birthday Alexa ❤️🎂</h1>
+    <p>May your day be filled with love, joy, and endless smiles.  
+    You are my world, my reason, and my forever.  
+    My happiness is only from you 💕</p>
+    <button onclick="showMessage()">💖 Click Me</button>
+    <button onclick="playMusic()">▶ Play Music</button>
   </div>
 
-  <audio autoplay loop>
-    <source src="https://www.computerhope.com/jargon/m/example.mp3" type="audio/mpeg">
+  <div class="hearts" id="hearts"></div>
+
+  <audio id="bg-music" loop>
+    <source src="Happy bday song.mp3" type="audio/mpeg">
+    Your browser does not support audio.
   </audio>
 
   <script>
-    // Typewriter effect
-    const msg = "You are my happiness, my sunshine, my forever ❤️";
-    let i = 0;
-    function typeWriter() {
-      if (i < msg.length) {
-        document.getElementById("message").innerHTML += msg.charAt(i);
-        i++;
-        setTimeout(typeWriter, 100);
-      }
+    function showMessage() {
+      alert("💝 Alexa, you mean everything to me! Happiest Birthday once again 💝");
     }
-    typeWriter();
 
-    // Falling hearts
+    function playMusic() {
+      document.getElementById('bg-music').play();
+    }
+
     function createHeart() {
       const heart = document.createElement("div");
+      heart.classList.add("heart");
       heart.innerHTML = "❤️";
-      heart.className = "heart";
       heart.style.left = Math.random() * 100 + "vw";
       heart.style.fontSize = Math.random() * 20 + 15 + "px";
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 5000);
-    }
-    setInterval(createHeart, 500);
-
-    // Fireworks
-    const canvas = document.getElementById("fireworks");
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    function random(min, max) {
-      return Math.random() * (max - min) + min;
+      heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+      document.getElementById("hearts").appendChild(heart);
+      setTimeout(() => { heart.remove(); }, 6000);
     }
 
-    class Firework {
-      constructor() {
-        this.x = random(0, canvas.width);
-        this.y = canvas.height;
-        this.targetY = random(100, canvas.height / 2);
-        this.color = `hsl(${random(0,360)},100%,50%)`;
-        this.particles = [];
-      }
-      update() {
-        this.y -= 5;
-        if (this.y <= this.targetY) {
-          this.explode();
-          return false;
-        }
-        return true;
-      }
-      explode() {
-        for (let i = 0; i < 50; i++) {
-          this.particles.push(new Particle(this.x, this.y, this.color));
-        }
-      }
-      draw() {
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, 2, 2);
-      }
-    }
-
-    class Particle {
-      constructor(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-        this.size = 2;
-        this.speedX = random(-3,3);
-        this.speedY = random(-3,3);
-        this.alpha = 1;
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.alpha -= 0.02;
-        return this.alpha > 0;
-      }
-      draw() {
-        ctx.globalAlpha = this.alpha;
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.size, this.size);
-        ctx.globalAlpha = 1;
-      }
-    }
-
-    let fireworks = [];
-    let particles = [];
-
-    function animate() {
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      if (Math.random() < 0.05) fireworks.push(new Firework());
-      fireworks = fireworks.filter(fw => {
-        if (!fw.update()) {
-          particles.push(...fw.particles);
-          return false;
-        }
-        fw.draw();
-        return true;
-      });
-      particles = particles.filter(p => {
-        if (p.update()) {
-          p.draw();
-          return true;
-        }
-        return false;
-      });
-      requestAnimationFrame(animate);
-    }
-    animate();
+    setInterval(createHeart, 400);
   </script>
+
 </body>
 </html>
