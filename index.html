@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday My Love ❤️</title>
+  <title>Happy Birthday Alexa ❤️</title>
   <style>
     body {
       margin: 0;
@@ -111,9 +111,9 @@
 </head>
 <body>
   <div class="card">
-    <h1>🎉 Happy Birthday My Love ❤️ 🎉</h1>
+    <h1>🎉 Happy Birthday Alexa ❤️ 🎉</h1>
     <p>May your day be filled with love, joy and endless smiles.<br>
-       You are my world, my happiness, and my forever 💕</p>
+       You are my world, my happiness, and my forever, My Happiness is only from you 💕</p>
     <div class="heart">❤️</div>
     <button onclick="alert('You are the best thing in my life ❤️')">Click Me</button>
   </div>
@@ -133,8 +133,10 @@
   <div class="confetti" style="left:90%; background: #f9844a; animation-duration: 5s;"></div>
 
   <!-- 🎶 Background Music -->
-  <audio autoplay loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
-  </audio>
+<audio id="bg-music" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
+</audio>
+
+<button onclick="document.getElementById('bg-music').play()">▶ Play Music</button>
 </body>
 </html>
