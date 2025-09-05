@@ -2,20 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Happy Birthday Alexa ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Alexa ❤️🎂</title>
   <style>
     body {
       margin: 0;
       height: 100vh;
+      overflow: hidden;
       display: flex;
-      align-items: center;
       justify-content: center;
-      flex-direction: column;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3, #fad0c4);
+      align-items: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4, #ffdde1);
       background-size: 300% 300%;
       animation: gradient 10s ease infinite;
-      overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
     }
 
     @keyframes gradient {
@@ -25,81 +26,84 @@
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.15);
+      position: relative;
+      background: rgba(0, 0, 0, 0.6);
       padding: 30px;
       border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
       text-align: center;
-      color: #fff;
-      animation: float 4s ease-in-out infinite;
+      box-shadow: 0 0 30px rgba(0,0,0,0.5);
+      z-index: 10;
       max-width: 400px;
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
-    }
-
     img.profile {
-      width: 130px;
-      height: 130px;
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
       border: 4px solid #fff;
       margin-bottom: 15px;
       object-fit: cover;
+      box-shadow: 0 0 20px rgba(255,0,0,0.6);
     }
 
     h1 {
-      font-size: 2.2rem;
-      margin: 10px 0;
+      font-size: 2.2em;
       color: #ffeb3b;
       text-shadow: 2px 2px 8px #000;
+      margin: 10px 0;
     }
 
     p {
-      font-size: 1rem;
+      font-size: 1.1em;
       margin: 15px 0;
+      line-height: 1.5;
     }
 
     button {
-      background: #ff4081;
+      padding: 12px 25px;
       border: none;
-      padding: 12px 20px;
+      border-radius: 30px;
       margin: 10px;
-      border-radius: 25px;
-      font-size: 1rem;
-      color: white;
       cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      color: white;
+      background: #ff4d6d;
       transition: 0.3s;
     }
 
     button:hover {
-      background: #f50057;
+      background: #ff1e50;
       transform: scale(1.1);
     }
 
-    .hearts {
+    /* Floating animations */
+    .floating {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: -1;
+      bottom: -50px;
+      font-size: 2em;
+      animation: floatUp 8s linear infinite;
+      opacity: 0.9;
     }
 
-    .heart {
-      position: absolute;
-      bottom: -20px;
-      color: red;
-      font-size: 20px;
-      animation: rise 6s linear infinite;
-    }
-
-    @keyframes rise {
+    @keyframes floatUp {
       0% { transform: translateY(0) scale(1); opacity: 1; }
       100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+    }
+
+    /* Confetti */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: randomColor;
+      animation: fall 6s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
     }
   </style>
 </head>
@@ -107,42 +111,51 @@
 
   <div class="card">
     <img src="alexa.jpg.jpeg" alt="Alexa" class="profile">
-    <h1>🎉 Happy Birthday Alexa ❤️🎂</h1>
-    <p>May your day be filled with love, joy, and endless smiles.  
-    You are my world, my reason, and my forever.  
-    My happiness is only from you 💕</p>
-    <button onclick="showMessage()">💖 Click Me</button>
-    <button onclick="playMusic()">▶ Play Music</button>
+    <h1>🎉 Happy Birthday Alexa ❤️ 🎉</h1>
+    <p>May your day be filled with love, joy, and endless smiles.<br>
+       You are my world, and my forever.<br>
+       My happiness is only from you 🩷🩷</p>
+    <button onclick="alert('Love you forever Alexa ❤️')">💖 Click Me</button>
+    <button onclick="playMusic()">▶ Play Music 🎶</button>
   </div>
 
-  <div class="hearts" id="hearts"></div>
-
+  <!-- Music -->
   <audio id="bg-music" loop>
     <source src="Happy bday song.mp3" type="audio/mpeg">
     Your browser does not support audio.
   </audio>
 
   <script>
-    function showMessage() {
-      alert("💝 Alexa, you mean everything to me! Happiest Birthday once again 💝");
-    }
-
+    const music = document.getElementById("bg-music");
     function playMusic() {
-      document.getElementById('bg-music').play();
+      music.play();
     }
 
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.innerHTML = "❤️";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = Math.random() * 20 + 15 + "px";
-      heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
-      document.getElementById("hearts").appendChild(heart);
-      setTimeout(() => { heart.remove(); }, 6000);
+    // Hearts & Balloons
+    function createFloatingEmoji() {
+      const emoji = document.createElement("div");
+      emoji.classList.add("floating");
+      emoji.textContent = Math.random() > 0.5 ? "❤️" : "🎈";
+      emoji.style.left = Math.random() * 100 + "vw";
+      emoji.style.fontSize = Math.random() * 20 + 15 + "px";
+      emoji.style.animationDuration = (Math.random() * 3 + 4) + "s";
+      document.body.appendChild(emoji);
+      setTimeout(() => { emoji.remove(); }, 8000);
     }
+    setInterval(createFloatingEmoji, 600);
 
-    setInterval(createHeart, 400);
+    // Confetti
+    function createConfetti() {
+      const confetti = document.createElement("div");
+      confetti.classList.add("confetti");
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.backgroundColor = "hsl(" + Math.random() * 360 + ", 100%, 50%)";
+      confetti.style.width = confetti.style.height = Math.random() * 8 + 4 + "px";
+      confetti.style.animationDuration = (Math.random() * 3 + 3) + "s";
+      document.body.appendChild(confetti);
+      setTimeout(() => { confetti.remove(); }, 6000);
+    }
+    setInterval(createConfetti, 300);
   </script>
 
 </body>
