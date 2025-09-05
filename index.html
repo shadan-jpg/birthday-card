@@ -2,141 +2,220 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday Alexa ❤️</title>
+  <title>Happy Birthday Alexa 🎉</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7, #fad0c4);
       height: 100vh;
-      overflow: hidden;
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
     }
+
     .card {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 40px;
-      border-radius: 25px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
       text-align: center;
-      animation: fadeIn 2s ease-in-out;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 40px rgba(0,0,0,0.3);
       position: relative;
       z-index: 2;
-      max-width: 450px;
     }
-    h1 {
-      color: #e63946;
-      font-size: 2.8em;
-      margin-bottom: 10px;
-      animation: bounce 2s infinite;
-    }
-    p {
-      color: #333;
-      font-size: 1.2em;
+
+    .profile {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 6px solid #ff4d6d;
+      box-shadow: 0 0 25px rgba(255,0,0,0.6);
       margin-bottom: 20px;
     }
-    .heart {
-      font-size: 2.5em;
-      color: red;
-      animation: pulse 1s infinite;
+
+    h1 {
+      font-size: 2.2em;
+      color: #fff;
+      margin: 10px 0;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
     }
+
+    p {
+      font-size: 1.2em;
+      color: #fff;
+      margin-bottom: 20px;
+      min-height: 50px;
+    }
+
     button {
-      margin-top: 20px;
-      background: #e63946;
+      background: #ff4d6d;
       color: white;
       border: none;
       padding: 12px 25px;
-      border-radius: 30px;
-      font-size: 1.1em;
+      border-radius: 25px;
+      font-size: 1em;
       cursor: pointer;
       transition: 0.3s;
     }
     button:hover {
-      background: #b5172e;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.3); }
-      100% { transform: scale(1); }
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+      background: #e6004c;
     }
 
-    /* 🎈 Balloons */
-    .balloon {
-      position: absolute;
-      bottom: -150px;
-      width: 60px;
-      height: 80px;
-      border-radius: 50%;
-      animation: floatUp 12s linear infinite;
-    }
-    .balloon::after {
-      content: "";
-      position: absolute;
-      width: 2px;
-      height: 70px;
-      background: #444;
-      top: 80px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    @keyframes floatUp {
-      from { transform: translateY(0); opacity: 1; }
-      to { transform: translateY(-120vh); opacity: 0; }
-    }
-
-    /* 🎊 Confetti */
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background: gold;
+    /* Falling hearts */
+    .heart {
+      position: fixed;
+      top: -10px;
+      color: red;
+      font-size: 20px;
       animation: fall 5s linear infinite;
     }
+
     @keyframes fall {
-      from { transform: translateY(-100px) rotate(0deg); }
-      to { transform: translateY(120vh) rotate(360deg); }
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+
+    /* Fireworks canvas */
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
     }
   </style>
 </head>
 <body>
+  <canvas id="fireworks"></canvas>
   <div class="card">
-    <h1>🎉 Happy Birthday Alexa ❤️ 🎉</h1>
-    <p>May your day be filled with love, joy and endless smiles.<br>
-       You are my world, my happiness, and my forever, My Happiness is only from you 💕</p>
-    <div class="heart">❤️</div>
-    <button onclick="alert('You are the best thing in my life ❤️')">Click Me</button>
+    <img src="alexa.jpg.jpeg" alt="Alexa" class="profile">
+    <h1>🎂 Happy Birthday Alexa ❤️</h1>
+    <p id="message"></p>
+    <button onclick="alert('I Love You Forever ❤️')">Click Me</button>
   </div>
 
-  <!-- 🎈 Balloons -->
-  <div class="balloon" style="left:15%; background:#ff4b5c; animation-duration: 9s;"></div>
-  <div class="balloon" style="left:35%; background:#f9c74f; animation-duration: 12s;"></div>
-  <div class="balloon" style="left:55%; background:#90be6d; animation-duration: 10s;"></div>
-  <div class="balloon" style="left:75%; background:#577590; animation-duration: 11s;"></div>
-  <div class="balloon" style="left:85%; background:#f9844a; animation-duration: 8s;"></div>
+  <audio autoplay loop>
+    <source src="https://www.computerhope.com/jargon/m/example.mp3" type="audio/mpeg">
+  </audio>
 
-  <!-- 🎊 Confetti -->
-  <div class="confetti" style="left:10%; background: #ff4b5c;"></div>
-  <div class="confetti" style="left:30%; background: #f9c74f; animation-duration: 6s;"></div>
-  <div class="confetti" style="left:50%; background: #90be6d; animation-duration: 4s;"></div>
-  <div class="confetti" style="left:70%; background: #577590; animation-duration: 7s;"></div>
-  <div class="confetti" style="left:90%; background: #f9844a; animation-duration: 5s;"></div>
+  <script>
+    // Typewriter effect
+    const msg = "You are my happiness, my sunshine, my forever ❤️";
+    let i = 0;
+    function typeWriter() {
+      if (i < msg.length) {
+        document.getElementById("message").innerHTML += msg.charAt(i);
+        i++;
+        setTimeout(typeWriter, 100);
+      }
+    }
+    typeWriter();
 
-  <!-- 🎶 Background Music -->
-<audio id="bg-music" loop>
-  <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
-</audio>
+    // Falling hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.innerHTML = "❤️";
+      heart.className = "heart";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 20 + 15 + "px";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(createHeart, 500);
 
-<button onclick="document.getElementById('bg-music').play()">▶ Play Music</button>
+    // Fireworks
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    class Firework {
+      constructor() {
+        this.x = random(0, canvas.width);
+        this.y = canvas.height;
+        this.targetY = random(100, canvas.height / 2);
+        this.color = `hsl(${random(0,360)},100%,50%)`;
+        this.particles = [];
+      }
+      update() {
+        this.y -= 5;
+        if (this.y <= this.targetY) {
+          this.explode();
+          return false;
+        }
+        return true;
+      }
+      explode() {
+        for (let i = 0; i < 50; i++) {
+          this.particles.push(new Particle(this.x, this.y, this.color));
+        }
+      }
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, 2, 2);
+      }
+    }
+
+    class Particle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.size = 2;
+        this.speedX = random(-3,3);
+        this.speedY = random(-3,3);
+        this.alpha = 1;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.alpha -= 0.02;
+        return this.alpha > 0;
+      }
+      draw() {
+        ctx.globalAlpha = this.alpha;
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.size, this.size);
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    let fireworks = [];
+    let particles = [];
+
+    function animate() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      if (Math.random() < 0.05) fireworks.push(new Firework());
+      fireworks = fireworks.filter(fw => {
+        if (!fw.update()) {
+          particles.push(...fw.particles);
+          return false;
+        }
+        fw.draw();
+        return true;
+      });
+      particles = particles.filter(p => {
+        if (p.update()) {
+          p.draw();
+          return true;
+        }
+        return false;
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
 </body>
 </html>
